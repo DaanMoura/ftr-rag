@@ -22,6 +22,8 @@ const retrieve = async (question: string) => {
 
 const retrievedChunks = (await retrieve(userQuestion)).documents[0]?.join('\n\n=======\n\n')
 
+console.log(retrievedChunks)
+
 const systemInstruction = `
 Você é um expert em Javascript que vai responder a uma pergunta do usuário.
 
