@@ -49,10 +49,19 @@ const retrieve = async (state: RAGState): Promise<RAGState> => {
 const generate = async (state: RAGState): Promise<RAGState> => {
   console.log('GENERATE', { state })
   const docs = (state.docs ?? []).map(doc => doc.pageContent).join('\n') 
-  const prompt = await promptTemplate.invoke({
-    question: state.question,
-    context: docs
-  })
+
+  const prompt = `
+  Você é um expert em Javascript que vai responder a uma pergunta do usuário.
+  
+  Responda a pergunta com base nos seguintes trechos retirados do livro "Eloquent Javascript".
+  Referencie em sua resposta os trechos abaixos.
+  
+  DOCUMENTOS:
+  ${docs}
+
+  PERGUNTA:
+  ${state.question}
+  `
 
   const response = await llm.invoke(prompt)
   return { ...state, answer: response.content.toString() }
